@@ -1,4 +1,5 @@
 import FeaturedCategories from '@/components/category/FeaturedCategories'
+import FeaturedCategoryWithProducts from '@/components/category/FeaturedCategoryWithProducts'
 import AboutCompany from '@/components/core/AboutCompany'
 import MainLayout from '@/components/layout/MainLayout'
 import FeaturedProducts from '@/components/product/FeaturedProducts'
@@ -23,7 +24,9 @@ const IndexPage: NextPage = () => {
             today.
           </Text>
         </Box>
-        <FeaturedProducts />
+        <Box mt='lg'>
+          <FeaturedCategoryWithProducts />
+        </Box>
         <Box>
           <Text mt='lg'>
             PCKey’s one of Europe’s leading suppliers of IT software, hardware and service solutions to individuals, corporations, business and public sector organisations, including those working in

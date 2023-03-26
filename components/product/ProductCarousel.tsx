@@ -1,5 +1,7 @@
-import React from 'react'
-import Carousel from 'react-multi-carousel'
+import { ActionIcon } from '@mantine/core'
+import React, { FC } from 'react'
+import Carousel, { ArrowProps } from 'react-multi-carousel'
+import { ChevronLeft, ChevronRight } from 'tabler-icons-react'
 import ProductCard from './ProductCard'
 
 const ProductCarousel = () => {
@@ -26,7 +28,7 @@ const ProductCarousel = () => {
     },
   }
   return (
-    <Carousel className='mt-8' responsive={responsive} arrows itemClass='px-4 md:px-0 md:pr-4'>
+    <Carousel customLeftArrow={<CustomLeftArrow />} customRightArrow={<CustomRightArrow />} className='mt-8' responsive={responsive} arrows itemClass='px-4'>
       <ProductCard withBorder />
       <ProductCard withBorder />
       <ProductCard withBorder />
@@ -42,6 +44,21 @@ const ProductCarousel = () => {
       <ProductCard withBorder />
       <ProductCard withBorder />
     </Carousel>
+  )
+}
+
+const CustomLeftArrow: FC<ArrowProps> = ({ onClick }) => {
+  return (
+    <ActionIcon variant='filled' className='absolute left-0' onClick={onClick} sx={(theme) => ({ background: theme.colors.yellow.at(6) })} size='lg' radius={0}>
+      <ChevronLeft color='white' />
+    </ActionIcon>
+  )
+}
+const CustomRightArrow: FC<ArrowProps> = ({ onClick }) => {
+  return (
+    <ActionIcon variant='filled' className='absolute right-0' onClick={onClick} sx={(theme) => ({ background: theme.colors.yellow.at(6) })} size='lg' radius={0}>
+      <ChevronRight color='white' />
+    </ActionIcon>
   )
 }
 

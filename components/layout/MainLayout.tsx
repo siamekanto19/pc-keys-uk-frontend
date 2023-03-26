@@ -1,3 +1,4 @@
+import { openCart } from '@/store'
 import { ActionIcon, Box, Flex, Paper } from '@mantine/core'
 import React, { FC, Fragment, useState } from 'react'
 import { Search, ShoppingBag, User } from 'tabler-icons-react'
@@ -31,7 +32,7 @@ const MainLayout: FC<Props> = ({ children, withoutBackground }) => {
             <ActionIcon onClick={() => setIsAuthDrawerOpen(true)} variant='transparent'>
               <User color='white' />
             </ActionIcon>
-            <ActionIcon variant='transparent'>
+            <ActionIcon onClick={openCart} variant='transparent'>
               <ShoppingBag color='white' />
             </ActionIcon>
           </Box>

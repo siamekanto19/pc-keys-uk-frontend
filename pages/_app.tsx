@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { Open_Sans } from 'next/font/google'
 import 'react-multi-carousel/lib/styles.css'
 import '@/styles/globals.css'
+import CartDrawer from '@/components/cart/CartDrawer'
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
       }}
     >
       <Component {...pageProps} />
+      <CartDrawer />
     </MantineProvider>
   )
 }
