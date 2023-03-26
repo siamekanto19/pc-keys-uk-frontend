@@ -3,7 +3,7 @@ import React from 'react'
 
 const ProductDescription = () => {
   return (
-    <TypographyStylesProvider>
+    <TypographyStylesProvider py='lg'>
       <p style={{ textAlign: 'center' }}>
         <span style={{ fontSize: 18 }}>
           <strong>Norton 360 Deluxe 2023 Digital License providing Antivirus software for 3 Devices for 1 Year (365 days)</strong>

@@ -10,9 +10,10 @@ import Footer from './Footer'
 
 type Props = {
   children: any
+  withoutBackground?: boolean
 }
 
-const MainLayout: FC<Props> = ({ children }) => {
+const MainLayout: FC<Props> = ({ children, withoutBackground }) => {
   const [isAuthDrawerOpen, setIsAuthDrawerOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   return (
@@ -36,9 +37,13 @@ const MainLayout: FC<Props> = ({ children }) => {
           </Box>
         </Paper>
         <HeaderCategoryList />
-        <Paper color='white' radius={0} mt='lg'>
-          {children}
-        </Paper>
+        {withoutBackground ? (
+          <Box mt='lg'>{children}</Box>
+        ) : (
+          <Paper color='white' radius={0} mt='lg'>
+            {children}
+          </Paper>
+        )}
       </Box>
       <Box>
         <Footer />

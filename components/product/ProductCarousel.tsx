@@ -27,20 +27,20 @@ const ProductCarousel = () => {
   }
   return (
     <Carousel className='mt-8' responsive={responsive} arrows itemClass='px-4 md:px-0 md:pr-4'>
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
+      <ProductCard withBorder />
     </Carousel>
   )
 }

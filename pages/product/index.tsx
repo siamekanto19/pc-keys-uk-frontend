@@ -33,7 +33,7 @@ const ProductPage = () => {
               <Radio value='20-device' label='Norton 360 Premium for 20 Devices - 12 Months License - Digital Delivery via Email Extra + £77.95' />
             </Radio.Group>
           </Flex>
-          <Box>
+          <Box mt='lg'>
             <ProductQuantitySelector max={50} onQuantityChange={setQuantity} />
           </Box>
           <Button size='lg' fullWidth radius={0} color='yellow' mt='md'>
@@ -44,7 +44,7 @@ const ProductPage = () => {
           </Box>
         </Box>
       </Box>
-      <Box my='xl' px='lg'>
+      <Box py='xl' px='lg'>
         <Accordion radius={0} mt='lg' variant='separated'>
           <Accordion.Item value='description'>
             <Accordion.Control>Product Details</Accordion.Control>
@@ -53,9 +53,6 @@ const ProductPage = () => {
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
-      </Box>
-      <Box mt={75}>
-        <AboutCompany />
       </Box>
     </MainLayout>
   )

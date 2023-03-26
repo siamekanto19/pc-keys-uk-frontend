@@ -77,9 +77,6 @@ const IndexPage: NextPage = () => {
           </Text>
         </Box>
       </Box>
-      <Box mt='lg'>
-        <AboutCompany />
-      </Box>
     </MainLayout>
   )
 }
