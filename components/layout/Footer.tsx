@@ -4,7 +4,7 @@ import BrandLogo from '../core/BrandLogo'
 
 const Footer = () => {
   return (
-    <Paper px='md' py={50} radius={0} className='bg-gray-700 text-white grid grid-flow-row grid-cols-1 lg:grid-cols-5 gap-4'>
+    <Paper px='xl' py={50} radius={0} className='bg-gray-800 text-white grid grid-flow-row grid-cols-1 lg:grid-cols-5 gap-4'>
       <Box className='flex flex-col gap-2'>
         <BrandLogo />
         <Text className='text-sm font-medium'>

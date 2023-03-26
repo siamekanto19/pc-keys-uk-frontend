@@ -40,7 +40,7 @@ const MainLayout: FC<Props> = ({ children }) => {
           {children}
         </Paper>
       </Box>
-      <Box mt='lg'>
+      <Box>
         <Footer />
       </Box>
     </Fragment>
