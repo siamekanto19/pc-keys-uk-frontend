@@ -11,8 +11,8 @@ const ProductPage = () => {
   return (
     <MainLayout>
       <Box p='lg' mt='lg' pt='xl' className='grid grid-flow-row grid-cols-1 lg:grid-cols-5 gap-10'>
-        <Box className='lg:col-span-3'>
-          <Image src='/img/norton.jpg' className='w-full' />
+        <Box className='lg:col-span-3 mx-auto'>
+          <Image width={300} src='/img/norton.jpg' className='w-full' />
         </Box>
         <Box className='lg:col-span-2 flex flex-col gap-y-4'>
           <Title order={2}>Norton 360 Platinum Internet and Device Security with VPN & Password Manager 2023 Digital License</Title>
