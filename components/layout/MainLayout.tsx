@@ -39,7 +39,9 @@ const MainLayout: FC<Props> = ({ children, withoutBackground }) => {
         </Paper>
         <HeaderCategoryList />
         {withoutBackground ? (
-          <Box mt='lg'>{children}</Box>
+          <Box mt='lg' className='w-11/12 lg:w-full mx-auto'>
+            {children}
+          </Box>
         ) : (
           <Paper color='white' radius={0} mt='lg'>
             {children}
