@@ -17,14 +17,14 @@ const CheckoutPage: NextPage = () => {
       <Box className='w-full grid grid-flow-row grid-cols-1 lg:grid-cols-5 gap-8'>
         <Paper p='xl' color='white' radius={0} shadow='md' className='lg:col-span-3'>
           <Title order={3}>Shipping Address</Title>
-          <form className='mt-6 grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-4'>
+          <form className='mt-6 grid grid-flow-row grid-cols-2 gap-4'>
             <TextInput className='col-span-2' classNames={{ label: 'pb-2' }} label='Email Address' type='email' size='sm' radius={0} />
-            <TextInput classNames={{ label: 'pb-2' }} label='First Name' type='text' size='sm' radius={0} />
-            <TextInput classNames={{ label: 'pb-2' }} label='Last Name' type='text' size='sm' radius={0} />
+            <TextInput className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='First Name' type='text' size='sm' radius={0} />
+            <TextInput className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='Last Name' type='text' size='sm' radius={0} />
             <TextInput className='col-span-2' classNames={{ label: 'pb-2' }} label='Company Name' type='text' size='sm' radius={0} />
-            <TextInput className='col-span-2' classNames={{ label: 'pb-2' }} label='Street Address' type='text' size='sm' radius={0} />
+            <TextInput className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='Street Address' type='text' size='sm' radius={0} />
             <Select
-              className='col-span-2'
+              className='col-span-2 md:col-span-1'
               classNames={{ item: '!rounded-none', dropdown: '!rounded-none p-0', label: 'pb-2' }}
               rightSection={<ChevronDown className='text-gray-400 h-5' />}
               radius={0}
@@ -33,10 +33,10 @@ const CheckoutPage: NextPage = () => {
               placeholder='Select a country'
               data={ALL_COUNTRIES.map((country) => ({ label: country, value: country }))}
             />
-            <TextInput classNames={{ label: 'pb-2' }} label='State/Province' type='text' size='sm' radius={0} />
-            <TextInput classNames={{ label: 'pb-2' }} label='City' type='text' size='sm' radius={0} />
-            <TextInput classNames={{ label: 'pb-2' }} label='Postal/Zip Code' type='text' size='sm' radius={0} />
-            <TextInput classNames={{ label: 'pb-2' }} label='Phone Number' type='text' size='sm' radius={0} />
+            <TextInput className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='State/Province' type='text' size='sm' radius={0} />
+            <TextInput className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='City' type='text' size='sm' radius={0} />
+            <TextInput className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='Postal/Zip Code' type='text' size='sm' radius={0} />
+            <TextInput className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='Phone Number' type='text' size='sm' radius={0} />
           </form>
           <Title order={4} mt='xl'>
             Shipping Methods

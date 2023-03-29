@@ -1,8 +1,7 @@
-import { openCart } from '@/store'
+import { openAuthDrawer, openCart } from '@/store'
 import { ActionIcon, Box, Flex, Paper } from '@mantine/core'
 import React, { FC, Fragment, useState } from 'react'
 import { Search, ShoppingBag, User } from 'tabler-icons-react'
-import UserAuthDrawer from '../auth/UserAuthDrawer'
 import HeaderCategoryList from '../category/HeaderCategoryList'
 import BrandLogo from '../core/BrandLogo'
 import GlobalSearch from '../core/GlobalSearch'
@@ -15,11 +14,9 @@ type Props = {
 }
 
 const MainLayout: FC<Props> = ({ children, withoutBackground }) => {
-  const [isAuthDrawerOpen, setIsAuthDrawerOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   return (
     <Fragment>
-      <UserAuthDrawer isOpen={isAuthDrawerOpen} onClose={() => setIsAuthDrawerOpen(false)} />
       <GlobalSearch isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
       <Box p={0} className='w-full lg:w-10/12 mx-auto lg:mt-4'>
         <Paper sx={(theme) => ({ background: theme.colors.brand })} radius={0} className='h-24 flex justify-between items-center' p='xl'>
@@ -29,7 +26,7 @@ const MainLayout: FC<Props> = ({ children, withoutBackground }) => {
             <ActionIcon onClick={() => setIsSearchOpen(true)} variant='transparent'>
               <Search color='white' />
             </ActionIcon>
-            <ActionIcon onClick={() => setIsAuthDrawerOpen(true)} variant='transparent'>
+            <ActionIcon onClick={openAuthDrawer} variant='transparent'>
               <User color='white' />
             </ActionIcon>
             <ActionIcon onClick={openCart} variant='transparent'>

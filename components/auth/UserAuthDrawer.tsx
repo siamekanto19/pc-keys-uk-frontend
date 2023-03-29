@@ -1,17 +1,15 @@
+import { closeAuthDrawer, LayoutStore } from '@/store'
 import { ActionIcon, Button, Drawer, Flex, PasswordInput, TextInput } from '@mantine/core'
 import React, { FC } from 'react'
 import { X } from 'tabler-icons-react'
+import { useSnapshot } from 'valtio'
 
-type Props = {
-  isOpen: boolean
-  onClose: () => any
-}
-
-const UserAuthDrawer: FC<Props> = ({ isOpen, onClose }) => {
+const UserAuthDrawer: FC = () => {
+  const { isAuthDrawerOpen } = useSnapshot(LayoutStore)
   return (
-    <Drawer withCloseButton={false} padding='xl' size='sm' position='right' opened={isOpen} onClose={onClose}>
+    <Drawer withCloseButton={false} padding='xl' size='sm' position='right' opened={isAuthDrawerOpen} onClose={closeAuthDrawer}>
       <Flex justify='end'>
-        <ActionIcon onClick={onClose} variant='transparent'>
+        <ActionIcon onClick={closeAuthDrawer} variant='transparent'>
           <X />
         </ActionIcon>
       </Flex>
