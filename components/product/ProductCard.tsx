@@ -1,4 +1,5 @@
 import { ActionIcon, Box, Button, Flex, Image, Paper, Text } from '@mantine/core'
+import Link from 'next/link'
 import React, { FC, Fragment, useState } from 'react'
 import { Eye } from 'tabler-icons-react'
 import ProductQuickView from './ProductQuickView'
@@ -26,11 +27,11 @@ const ProductCard: FC<Props> = ({ withBorder }) => {
           </ActionIcon>
           <Image src='/img/norton.jpg' />
         </Box>
-        <a href='#'>
+        <Link href='/product'>
           <Text mt='sm' className='uppercase hover:text-[var(--mantine-color-brand-0)] text-sm'>
             Norton 360 Premium Internet and Device Security with VPN & Password Manager 2023 Digital License
           </Text>
-        </a>
+        </Link>
         <Flex align='center' gap='sm'>
           <Text className='text-lg font-medium text-red-500 line-through'>£50</Text>
           <Text className='text-lg font-medium'>£50</Text>

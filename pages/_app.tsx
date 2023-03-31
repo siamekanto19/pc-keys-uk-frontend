@@ -5,6 +5,7 @@ import 'react-multi-carousel/lib/styles.css'
 import '@/styles/globals.css'
 import CartDrawer from '@/components/cart/CartDrawer'
 import UserAuthDrawer from '@/components/auth/UserAuthDrawer'
+import Progressbar from 'nextjs-progressbar'
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
         fontFamily: openSans.style.fontFamily,
       }}
     >
+      <Progressbar color='var(--mantine-color-brand-0)' options={{ showSpinner: false }} />
       <Component {...pageProps} />
       <CartDrawer />
       <UserAuthDrawer />
