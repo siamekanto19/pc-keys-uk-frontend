@@ -1,16 +1,20 @@
 import { Accordion, Box, List, Text, ThemeIcon, Title } from '@mantine/core'
-import React from 'react'
+import React, { FC } from 'react'
 import { Check } from 'tabler-icons-react'
 import DeliverySteps from '../core/DeliverySteps'
 
-const ProductOverviewSection = () => {
+type Props = {
+  name: string
+}
+
+const ProductOverviewSection: FC<Props> = ({ name }) => {
   return (
     <Accordion radius={0} variant='separated'>
       <Accordion.Item value='product-overview'>
         <Accordion.Control>Overview</Accordion.Control>
         <Accordion.Panel className='text-sm'>
           <Text mt='lg' className='uppercase font-medium'>
-            BUY NORTON 360 DELUXE INTERNET & DESKTOP SECURITY 2023 software from our{' '}
+            BUY {name}
             <a href='#' className='underline'>
               INNOVATIVE RANGE OF RETAIL PRODUCTS
             </a>
