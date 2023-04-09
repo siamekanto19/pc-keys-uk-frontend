@@ -45,9 +45,9 @@ const ProductQuickView: FC<Props> = ({ isOpen, onClose }) => {
           <Button size='lg' fullWidth radius={0} color='yellow' mt='md'>
             ADD TO CART
           </Button>
-          <Box mt='lg'>
+          {/* <Box mt='lg'>
             <ProductOverviewSection />
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </Modal>
