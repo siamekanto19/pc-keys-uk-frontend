@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 const CartDrawer = () => {
   const { isCartOpen } = useSnapshot(LayoutStore)
   const router = useRouter()
-  const { total } = useSnapshot(cartStore)
+  const { total, lines } = useSnapshot(cartStore)
   const goToCheckout = () => {
     closeCart()
     router.push('/checkout')
@@ -25,17 +25,19 @@ const CartDrawer = () => {
         </ActionIcon>
       </Paper>
       <CartOrderLines />
-      <Box className='fixed bottom-0 w-full'>
-        <Paper radius={0} p='md' className='bg-gray-200 flex flex-col gap-y-4'>
-          <Flex justify='space-between' className='font-semibold text-lg'>
-            <Text>Cart Subtotal</Text>
-            <Text>{formatPrice(total)}</Text>
-          </Flex>
-        </Paper>
-        <Button onClick={goToCheckout} size='lg' fullWidth radius={0}>
-          Checkout
-        </Button>
-      </Box>
+      {lines.length > 0 && (
+        <Box className='fixed bottom-0 w-full'>
+          <Paper radius={0} p='md' className='bg-gray-200 flex flex-col gap-y-4'>
+            <Flex justify='space-between' className='font-semibold text-lg'>
+              <Text>Cart Subtotal</Text>
+              <Text>{formatPrice(total)}</Text>
+            </Flex>
+          </Paper>
+          <Button onClick={goToCheckout} size='lg' fullWidth radius={0}>
+            Checkout
+          </Button>
+        </Box>
+      )}
     </Drawer>
   )
 }
