@@ -1,31 +1,39 @@
+import { cartStore } from '@/store/CartStore'
+import { formatPrice } from '@/utils/FormatPrice'
 import { Box, Flex, Image, Paper, Text, Title } from '@mantine/core'
 import React from 'react'
+import { useSnapshot } from 'valtio'
 
 const OrderSummary = () => {
+  const { lines, total } = useSnapshot(cartStore)
   return (
     <Box className='flex flex-col'>
       <Title order={3}>Order Summary</Title>
       <Text className='text-gray-500 font-medium'>1 Item in cart</Text>
-      <Flex px='lg' align='start' gap='lg' mt='xl'>
-        <Image width={75} src='/img/norton.jpg' />
-        <Flex direction='column' gap='sm'>
-          <Text className='text-sm'>Norton 360 Platinum Internet and Device Security with VPN & Password Manager 2023 Digital License</Text>
-          <Text className='text-sm lg:hidden'>£79.99</Text>
+      {lines.map((line) => (
+        <Flex key={line.id} px='lg' align='start' gap='lg' mt='xl'>
+          <Image width={75} src={line.productVariant.product.featuredAsset?.source} />
+          <Flex direction='column' gap='sm' className='font-medium'>
+            <Text className='text-sm'>
+              {line.quantity}X {line.productVariant.sku}
+            </Text>
+            <Text className='text-sm lg:hidden font-medium'>{formatPrice(line.productVariant.price)}</Text>
+          </Flex>
+          <Text className='text-sm hidden lg:block font-medium'>{formatPrice(line.productVariant.price)}</Text>
         </Flex>
-        <Text className='text-sm hidden lg:block'>£79.99</Text>
-      </Flex>
+      ))}
       <Paper mt='xl' radius={0} p='md' className='bg-gray-100 flex flex-col gap-y-4'>
-        <Flex justify='space-between' className='text-sm'>
+        <Flex justify='space-between' className='text-sm font-medium'>
           <Text>Cart Subtotal</Text>
-          <Text>£79.99</Text>
+          <Text>{formatPrice(total)}</Text>
         </Flex>
-        <Flex justify='space-between' className='text-sm'>
+        <Flex justify='space-between' className='text-sm font-medium'>
           <Text>Shipping</Text>
           <Text>£0.00</Text>
         </Flex>
         <Flex justify='space-between' className='text-sm' mt='lg'>
           <Title order={4}>Order Total</Title>
-          <Title order={4}>£79.99</Title>
+          <Title order={4}>{formatPrice(total)}</Title>
         </Flex>
       </Paper>
     </Box>

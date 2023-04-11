@@ -6,17 +6,14 @@ import '@/styles/globals.css'
 import CartDrawer from '@/components/cart/CartDrawer'
 import UserAuthDrawer from '@/components/auth/UserAuthDrawer'
 import Progressbar from 'nextjs-progressbar'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { Toaster } from 'react-hot-toast'
+import { ApolloProvider } from '@apollo/client'
+import { apollo } from '@/lib/Apollo'
 
 const openSans = Open_Sans({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
   variable: '--font-open-sans',
-})
-
-export const apollo = new ApolloClient({
-  uri: 'https://build.pckeys.uk/shop-api',
-  cache: new InMemoryCache(),
 })
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -36,6 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
       >
         <Progressbar color='var(--mantine-color-brand-0)' options={{ showSpinner: false }} />
         <Component {...pageProps} />
+        <Toaster />
         <CartDrawer />
         <UserAuthDrawer />
       </MantineProvider>

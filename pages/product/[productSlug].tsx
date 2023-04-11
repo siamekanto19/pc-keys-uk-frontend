@@ -6,19 +6,24 @@ import ProductQuantitySelector from '@/components/product/ProductQuantitySelecto
 import { Box, Image, Title, Text, Flex, Radio, Button, Accordion } from '@mantine/core'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { FC, useMemo, useState } from 'react'
-import { apollo } from '../_app'
 import { PRODUCT_SLUGS, SINGLE_PRODUCT } from '@/gql/queries/productQueries'
 import { Product } from '@/gql/generated/graphql'
 import { formatPrice } from '@/utils/FormatPrice'
 import { REVALIDATE_TIME } from '@/env'
+import { addItemToCart } from '@/store/CartStore'
+import { useNotifications } from '@/hooks/useNotifications'
+import { openCart } from '@/store'
+import { apollo } from '@/lib/Apollo'
 
 type Props = {
   product: Product
 }
 
 const ProductPage: FC<Props> = ({ product }) => {
+  const { showError } = useNotifications()
   const [quantity, setQuantity] = useState(1)
   const [selectedVariantId, setSelectedVariantId] = useState(product.variants.at(0)?.id ?? '')
+  const [loading, setLoading] = useState(false)
   const displayPrice = useMemo(() => {
     for (const variant of product.variants) {
       if (variant.id === selectedVariantId) {
@@ -28,6 +33,19 @@ const ProductPage: FC<Props> = ({ product }) => {
 
     return ''
   }, [selectedVariantId])
+
+  const addToCart = async () => {
+    setLoading(true)
+    try {
+      await addItemToCart({ productVariantId: selectedVariantId, quantity })
+      openCart()
+    } catch (error) {
+      showError(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <MainLayout>
       <Box p='lg' mt='lg' pt='xl' className='grid grid-flow-row grid-cols-1 lg:grid-cols-5 gap-10'>
@@ -57,7 +75,7 @@ const ProductPage: FC<Props> = ({ product }) => {
           <Box mt='lg'>
             <ProductQuantitySelector max={50} onQuantityChange={setQuantity} />
           </Box>
-          <Button size='lg' fullWidth radius={0} color='yellow' mt='md'>
+          <Button loading={loading} onClick={addToCart} size='lg' fullWidth radius={0} color='yellow' mt='md'>
             ADD TO CART
           </Button>
           <Box mt='lg'>
