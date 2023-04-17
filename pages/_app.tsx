@@ -7,8 +7,8 @@ import CartDrawer from '@/components/cart/CartDrawer'
 import UserAuthDrawer from '@/components/auth/UserAuthDrawer'
 import Progressbar from 'nextjs-progressbar'
 import { Toaster } from 'react-hot-toast'
-import { ApolloProvider } from '@apollo/client'
-import { apollo } from '@/lib/Apollo'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { CartProvider } from 'react-use-cart'
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -16,27 +16,34 @@ const openSans = Open_Sans({
   variable: '--font-open-sans',
 })
 
+export const apollo = new ApolloClient({
+  uri: 'https://build.pckeys.uk/graphql',
+  cache: new InMemoryCache(),
+})
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ApolloProvider client={apollo}>
-      <MantineProvider
-        withCSSVariables
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          colors: {
-            brand: ['#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17'],
-          },
-          primaryColor: 'brand',
-          fontFamily: openSans.style.fontFamily,
-        }}
-      >
-        <Progressbar color='var(--mantine-color-brand-0)' options={{ showSpinner: false }} />
-        <Component {...pageProps} />
-        <Toaster />
-        <CartDrawer />
-        <UserAuthDrawer />
-      </MantineProvider>
-    </ApolloProvider>
+    <CartProvider>
+      <ApolloProvider client={apollo}>
+        <MantineProvider
+          withCSSVariables
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            colors: {
+              brand: ['#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17', '#fe1d17'],
+            },
+            primaryColor: 'brand',
+            fontFamily: openSans.style.fontFamily,
+          }}
+        >
+          <Progressbar color='var(--mantine-color-brand-0)' options={{ showSpinner: false }} />
+          <Component {...pageProps} />
+          <Toaster />
+          <CartDrawer />
+          <UserAuthDrawer />
+        </MantineProvider>
+      </ApolloProvider>
+    </CartProvider>
   )
 }

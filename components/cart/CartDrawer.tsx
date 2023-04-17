@@ -4,14 +4,14 @@ import React from 'react'
 import { X } from 'tabler-icons-react'
 import { useSnapshot } from 'valtio'
 import CartOrderLines from './CartOrderLines'
-import { cartStore } from '@/store/CartStore'
-import { formatPrice } from '@/utils/FormatPrice'
 import { useRouter } from 'next/router'
+import { useCart } from 'react-use-cart'
 
 const CartDrawer = () => {
   const { isCartOpen } = useSnapshot(LayoutStore)
   const router = useRouter()
-  const { total, lines } = useSnapshot(cartStore)
+  const { isEmpty, cartTotal } = useCart()
+
   const goToCheckout = () => {
     closeCart()
     router.push('/checkout')
@@ -25,12 +25,12 @@ const CartDrawer = () => {
         </ActionIcon>
       </Paper>
       <CartOrderLines />
-      {lines.length > 0 && (
+      {!isEmpty && (
         <Box className='fixed bottom-0 w-full'>
           <Paper radius={0} p='md' className='bg-gray-200 flex flex-col gap-y-4'>
             <Flex justify='space-between' className='font-semibold text-lg'>
               <Text>Cart Subtotal</Text>
-              <Text>{formatPrice(total)}</Text>
+              <Text>£{cartTotal.toPrecision(5)}</Text>
             </Flex>
           </Paper>
           <Button onClick={goToCheckout} size='lg' fullWidth radius={0}>

@@ -1,15 +1,12 @@
-import { OrderLine } from '@/gql/generated/graphql'
-import { useNotifications } from '@/hooks/useNotifications'
 import { closeCart } from '@/store'
-import { cartStore, removeFromCart } from '@/store/CartStore'
-import { formatPrice } from '@/utils/FormatPrice'
 import { Button, Flex, Title, Image, Text } from '@mantine/core'
-import React, { Fragment, useState } from 'react'
-import { useSnapshot } from 'valtio'
+import React, { Fragment } from 'react'
+import { Item, useCart } from 'react-use-cart'
+import StrapiMedia from '../core/StrapiMedia'
 
 const CartOrderLines = () => {
-  const { lines } = useSnapshot(cartStore)
-  if (lines.length < 1) {
+  const { items, isEmpty } = useCart()
+  if (isEmpty) {
     return (
       <Flex direction='column' gap='lg' px='lg' mt={100}>
         <Title align='center' order={5} className='font-medium'>
@@ -23,41 +20,29 @@ const CartOrderLines = () => {
   }
   return (
     <Flex direction='column' gap='lg' px='lg'>
-      {lines.map((line) => (
-        <LineItem {...(line as OrderLine)} />
+      {items.map((item) => (
+        <LineItem {...item} />
       ))}
     </Flex>
   )
 }
 
-const LineItem = (item: OrderLine) => {
-  const { showError } = useNotifications()
-  const [loading, setLoading] = useState(false)
-  const removeItem = async () => {
-    setLoading(true)
-    try {
-      await removeFromCart({ orderLineId: item.id })
-    } catch (error) {
-      showError(error)
-    } finally {
-      setLoading(false)
-    }
-  }
+const LineItem = (item: Item) => {
+  const { removeItem } = useCart()
   return (
     <Fragment>
       <Flex px='lg' align='start' gap='lg' mt='xl'>
-        <Image width={60} src={item.productVariant.product.featuredAsset?.source} />
+        <StrapiMedia width={60} data={item.image} />
         <Flex direction='column' gap='sm'>
           <Text className='text-sm font-medium'>
-            {item.quantity}X {item.productVariant.sku}
+            {item.quantity}X {item.name}
           </Text>
-
-          <Text className='text-sm lg:hidden font-medium'>{formatPrice(item.productVariant.price)}</Text>
+          <Text className='text-sm lg:hidden font-medium'>£{item.price}</Text>
         </Flex>
-        <Text className='text-sm hidden lg:block font-medium'>{formatPrice(item.productVariant.price)}</Text>
+        <Text className='text-sm hidden lg:block font-medium'>£{item.price}</Text>
       </Flex>
       <Flex justify='end'>
-        <Button onClick={removeItem} loading={loading} className='w-24' size='xs' radius={0}>
+        <Button onClick={() => removeItem(item.id)} className='w-24' size='xs' radius={0}>
           Remove
         </Button>
       </Flex>

@@ -3,7 +3,7 @@ import { CodegenConfig } from '@graphql-codegen/cli'
 const config: CodegenConfig = {
   schema: [
     {
-      'https://build.pckeys.uk/shop-api': {
+      'https://build.pckeys.uk/graphql': {
         headers: {},
       },
     },

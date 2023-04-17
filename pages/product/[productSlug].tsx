@@ -6,14 +6,14 @@ import ProductQuantitySelector from '@/components/product/ProductQuantitySelecto
 import { Box, Image, Title, Text, Flex, Radio, Button, Accordion } from '@mantine/core'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { FC, useMemo, useState } from 'react'
-import { PRODUCT_SLUGS, SINGLE_PRODUCT } from '@/gql/queries/productQueries'
-import { Product } from '@/gql/generated/graphql'
-import { formatPrice } from '@/utils/FormatPrice'
+import { Product, ProductEntityResponse } from '@/gql/generated/graphql'
 import { REVALIDATE_TIME } from '@/env'
-import { addItemToCart } from '@/store/CartStore'
 import { useNotifications } from '@/hooks/useNotifications'
 import { openCart } from '@/store'
-import { apollo } from '@/lib/Apollo'
+import { apollo } from '../_app'
+import { PRODUCT_SLUGS, SINGLE_PRODUCT } from '@/gql/queries/productQueries'
+import StrapiMedia from '@/components/core/StrapiMedia'
+import { useCart } from 'react-use-cart'
 
 type Props = {
   product: Product
@@ -21,54 +21,68 @@ type Props = {
 
 const ProductPage: FC<Props> = ({ product }) => {
   const { showError } = useNotifications()
+  const { addItem } = useCart()
   const [quantity, setQuantity] = useState(1)
-  const [selectedVariantId, setSelectedVariantId] = useState(product.variants.at(0)?.id ?? '')
+  const [selectedVariantId, setSelectedVariantId] = useState(product.product_variants?.data.at(0)?.id ?? '')
   const [loading, setLoading] = useState(false)
-  const displayPrice = useMemo(() => {
-    for (const variant of product.variants) {
+
+  const renderPrice = useMemo(() => {
+    if (!product.product_variants?.data) return ''
+    for (const variant of product.product_variants.data) {
       if (variant.id === selectedVariantId) {
-        return formatPrice(variant.price)
+        return (
+          <Flex align='center' gap='sm'>
+            <Text className='text-lg text-red-500'>
+              Regular Price <span className='line-through'>£{variant.attributes?.price}</span>
+            </Text>
+            <Text className='text-lg'>£{variant.attributes?.current_price}</Text>
+          </Flex>
+        )
       }
     }
-
-    return ''
+    return null
   }, [selectedVariantId])
 
-  const addToCart = async () => {
-    setLoading(true)
-    try {
-      await addItemToCart({ productVariantId: selectedVariantId, quantity })
-      openCart()
-    } catch (error) {
-      showError(error)
-    } finally {
-      setLoading(false)
+  const selectedVariant = useMemo(() => {
+    if (!product.product_variants?.data) return null
+    for (const variant of product.product_variants.data) {
+      if (variant.id === selectedVariantId) {
+        return variant.attributes
+      }
     }
+    return null
+  }, [selectedVariantId])
+
+  const addToCart = () => {
+    addItem({
+      id: selectedVariantId,
+      quantity,
+      price: selectedVariant?.current_price ?? 0,
+      name: selectedVariant?.name,
+      sku: selectedVariant?.sku,
+      image: product.featured_image,
+    })
+    openCart()
   }
 
   return (
     <MainLayout>
       <Box p='lg' mt='lg' pt='xl' className='grid grid-flow-row grid-cols-1 lg:grid-cols-5 gap-10'>
         <Box className='lg:col-span-3 mx-auto'>
-          <Image width={300} src={product.featuredAsset?.source} className='w-full' />
+          <StrapiMedia data={product.featured_image} width={300} className='w-full' />
         </Box>
         <Box className='lg:col-span-2 flex flex-col gap-y-4'>
           <Title order={2}>{product.name}</Title>
           <Text className='text-sm font-medium text-gray-500'>{product.name}</Text>
-          <Text className='uppercase text-green-600'>IN STOCK</Text>
-          <Flex align='center' gap='sm'>
-            <Text className='text-lg text-red-500'>
-              Regular Price <span className='line-through'>{formatPrice(product.customFields?.oldPrice)}</span>
-            </Text>
-            <Text className='text-lg'>{displayPrice}</Text>
-          </Flex>
+          {product.in_stock && <Text className='uppercase text-green-600'>IN STOCK</Text>}
+          {renderPrice}
           <Flex direction='column' gap='xs'>
             <Title order={5} className='font-semibold'>
               Product Options
             </Title>
-            <Radio.Group defaultValue={product.variants.at(0)?.id} onChange={setSelectedVariantId} className='flex flex-col gap-4' title='Product Options'>
-              {product.variants.map((variant) => (
-                <Radio key={variant.id} value={variant.id} label={variant.sku} />
+            <Radio.Group defaultValue={selectedVariantId} onChange={setSelectedVariantId} className='flex flex-col gap-4' title='Product Options'>
+              {product.product_variants?.data?.map((variant) => (
+                <Radio key={variant.id} value={variant.id ?? ''} label={variant.attributes?.sku} />
               ))}
             </Radio.Group>
           </Flex>
@@ -88,7 +102,7 @@ const ProductPage: FC<Props> = ({ product }) => {
           <Accordion.Item value='description'>
             <Accordion.Control>Product Details</Accordion.Control>
             <Accordion.Panel px='lg'>
-              <ProductDescription description={product.description} />
+              <ProductDescription description={product.long_description ?? ''} />
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
@@ -103,14 +117,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { data } = await apollo.query({
     query: SINGLE_PRODUCT,
     variables: {
+      modelName: 'product',
       slug,
+      publicationState: 'live',
     },
     fetchPolicy: 'no-cache',
   })
 
+  const product = data.findSlug as ProductEntityResponse
+
   return {
     props: {
-      product: data.product,
+      product: product.data?.attributes,
     },
     revalidate: REVALIDATE_TIME,
   }
@@ -123,9 +141,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   })
 
   const paths: { params: { productSlug: string } }[] = []
-
-  data.products.items.forEach((item) => {
-    paths.push({ params: { productSlug: item.slug } })
+  data.products?.data.forEach((product) => {
+    paths.push({ params: { productSlug: product.attributes?.slug ?? '' } })
   })
 
   return {

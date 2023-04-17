@@ -1,5 +1,6 @@
 import { TypographyStylesProvider } from '@mantine/core'
 import React, { FC } from 'react'
+import RichText from '../core/RichText'
 
 type Props = {
   description: string
@@ -8,7 +9,7 @@ type Props = {
 const ProductDescription: FC<Props> = ({ description }) => {
   return (
     <TypographyStylesProvider py='lg'>
-      <div dangerouslySetInnerHTML={{ __html: description }}></div>
+      <RichText blocks={description} />
     </TypographyStylesProvider>
   )
 }

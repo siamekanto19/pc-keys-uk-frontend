@@ -1,11 +1,9 @@
 import MainLayout from '@/components/layout/MainLayout'
 import OrderSummary from '@/components/order/OrderSummary'
-import { Country, CreateAddressInput, OrderAddress } from '@/gql/generated/graphql'
-import { SET_SHIPPING_ADDRESS } from '@/gql/queries/checkoutQueries'
-import { AVAILABLE_COUNTRIES } from '@/gql/queries/otherQueries'
+import { AddressInput } from '@/gql/generated/graphql'
 import { useNotifications } from '@/hooks/useNotifications'
-import { apollo } from '@/lib/Apollo'
 import { openAuthDrawer } from '@/store'
+import { checkoutStore, setShippingAddress } from '@/store/checkoutStore'
 import { useMutation } from '@apollo/client'
 import { Box, Button, Paper, Radio, Select, Text, Textarea, TextInput, Title } from '@mantine/core'
 import { useRouter } from 'next/router'
@@ -13,28 +11,20 @@ import { GetStaticProps, NextPage } from 'next/types'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ChevronDown } from 'tabler-icons-react'
+import { useSnapshot } from 'valtio'
 
 type Props = {
-  countries: Country[]
+  countries: any
 }
 
 const CheckoutPage: NextPage<Props> = ({ countries }) => {
   const router = useRouter()
-  const { showError } = useNotifications()
-  const { register, handleSubmit, control } = useForm({
-    defaultValues: {} as CreateAddressInput,
+  const { shippingAddress } = useSnapshot(checkoutStore)
+  const { register, handleSubmit } = useForm({
+    defaultValues: shippingAddress,
   })
 
-  const [mutate, { loading, error }] = useMutation(SET_SHIPPING_ADDRESS)
-
-  const setShippingAddress = async (data: CreateAddressInput) => {
-    try {
-      await mutate({ variables: { input: data } })
-      router.push('/checkout/payment')
-    } catch (error) {
-      showError(error)
-    }
-  }
+  // const [mutate, { loading, error }] = useMutation(SET_SHIPPING_ADDRESS)
 
   return (
     <MainLayout withoutBackground>
@@ -49,13 +39,13 @@ const CheckoutPage: NextPage<Props> = ({ countries }) => {
           </Title>
           <Title order={3}>Shipping Address</Title>
           <form onSubmit={handleSubmit(setShippingAddress)} className='mt-6 grid grid-flow-row grid-cols-2 gap-4'>
-            {/* <TextInput className='col-span-2' classNames={{ label: 'pb-2' }} label='Email Address' type='email' size='sm' radius={0} /> */}
-            <TextInput required className='col-span-2' classNames={{ label: 'pb-2' }} label='Full Name' type='text' size='sm' radius={0} {...register('fullName')} />
-            <TextInput className='col-span-2' classNames={{ label: 'pb-2' }} label='Company Name' type='text' size='sm' radius={0} {...register('company')} />
-            <TextInput required className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='Street Address 1' type='text' size='sm' radius={0} {...register('streetLine1')} />
-            <TextInput className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='Street Address 2' type='text' size='sm' radius={0} {...register('streetLine2')} />
-            <Controller
-              name='countryCode'
+            <TextInput className='col-span-2' classNames={{ label: 'pb-2' }} label='Email Address' type='email' size='sm' radius={0} {...register('email')} />
+            <TextInput required className='col-span-2' classNames={{ label: 'pb-2' }} label='Full Name' type='text' size='sm' radius={0} {...register('first_name')} />
+            <TextInput className='col-span-2' classNames={{ label: 'pb-2' }} label='Company Name' type='text' size='sm' radius={0} {...register('company_name')} />
+            <TextInput required className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='Street Address 1' type='text' size='sm' radius={0} {...register('address_line_1')} />
+            <TextInput className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='Street Address 2' type='text' size='sm' radius={0} {...register('address_line_2')} />
+            {/* <Controller
+              name='country'
               control={control}
               render={({ field: { onChange, value, name } }) => (
                 <Select
@@ -73,11 +63,11 @@ const CheckoutPage: NextPage<Props> = ({ countries }) => {
                   data={countries.map((country) => ({ label: country.name, value: country.code }))}
                 />
               )}
-            />
-            <TextInput required className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='State/Province' type='text' size='sm' radius={0} {...register('province')} />
+            /> */}
+            <TextInput required className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='State/Province' type='text' size='sm' radius={0} {...register('state')} />
             <TextInput required className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='City' type='text' size='sm' radius={0} {...register('city')} />
-            <TextInput required className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='Postal/Zip Code' type='text' size='sm' radius={0} {...register('postalCode')} />
-            <TextInput required className='col-span-2' classNames={{ label: 'pb-2' }} label='Phone Number' type='text' size='sm' radius={0} {...register('phoneNumber')} />
+            <TextInput required className='col-span-2 md:col-span-1' classNames={{ label: 'pb-2' }} label='Postal/Zip Code' type='text' size='sm' radius={0} {...register('zip_code')} />
+            <TextInput required className='col-span-2' classNames={{ label: 'pb-2' }} label='Phone Number' type='text' size='sm' radius={0} {...register('phone_number')} />
             <Title order={4} mt='xl'>
               Shipping Methods
             </Title>
@@ -92,7 +82,7 @@ const CheckoutPage: NextPage<Props> = ({ countries }) => {
               Additional Information
             </Title>
             <Textarea className='col-span-2' size='sm' mt='md' radius={0} cols={10} minRows={6} autosize />
-            <Button loading={loading} mt='md' size='md' radius={0} type='submit'>
+            <Button mt='md' size='md' radius={0} type='submit'>
               Submit
             </Button>
           </form>
@@ -106,12 +96,12 @@ const CheckoutPage: NextPage<Props> = ({ countries }) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await apollo.query({
-    query: AVAILABLE_COUNTRIES,
-    fetchPolicy: 'no-cache',
-  })
+  // const { data } = await apollo.query({
+  //   query: AVAILABLE_COUNTRIES,
+  //   fetchPolicy: 'no-cache',
+  // })
 
-  return { props: { countries: data.availableCountries } }
+  return { props: {} }
 }
 
 export default CheckoutPage
