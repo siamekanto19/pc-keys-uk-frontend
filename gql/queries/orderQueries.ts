@@ -6,7 +6,7 @@ export const CREATE_ORDER = graphql(`
       data {
         id
         attributes {
-          payment_intent
+          order_id
           payment_method
           total_price
           user {

@@ -31,7 +31,7 @@ const ProductPage: FC<Props> = ({ product }) => {
     for (const variant of product.product_variants.data) {
       if (variant.id === selectedVariantId) {
         return (
-          <Flex align='center' gap='sm'>
+          <Flex align='center' gap='sm' className='font-medium'>
             <Text className='text-lg text-red-500'>
               Regular Price <span className='line-through'>£{variant.attributes?.price}</span>
             </Text>

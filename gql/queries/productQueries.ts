@@ -129,3 +129,63 @@ export const SINGLE_PRODUCT = graphql(`
     }
   }
 `)
+
+export const PRODUCTS_BY_CATEGORY = graphql(`
+  query ProductsByCategory($filters: ProductFiltersInput, $sort: [String], $pagination: PaginationArg) {
+    products(filters: $filters, sort: $sort, pagination: $pagination) {
+      meta {
+        pagination {
+          total
+          page
+          pageSize
+          pageCount
+        }
+      }
+      data {
+        id
+        attributes {
+          slug
+          sku
+          name
+          featured_image {
+            data {
+              id
+              attributes {
+                name
+                alternativeText
+                caption
+                width
+                height
+                formats
+                hash
+                ext
+                mime
+                size
+                url
+                previewUrl
+                provider
+                provider_metadata
+                createdAt
+                updatedAt
+              }
+            }
+          }
+          in_stock
+          product_variants {
+            data {
+              id
+              attributes {
+                price
+                sku
+                slug
+                name
+                in_stock
+                current_price
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`)

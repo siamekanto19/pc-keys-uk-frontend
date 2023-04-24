@@ -1,70 +1,46 @@
-import React, { Fragment } from 'react'
+import React, { FC, Fragment } from 'react'
 import { Tab } from '@headlessui/react'
 import { Box, Button, Title } from '@mantine/core'
 import ProductCarousel from '../product/ProductCarousel'
+import { ComponentHomeFeaturedCollectionTabs, Maybe } from '@/gql/generated/graphql'
+import RichText from '../core/RichText'
 
-const FeaturedCategoryWithProducts = () => {
+type Props = {
+  data?: Maybe<ComponentHomeFeaturedCollectionTabs>
+}
+
+const FeaturedCategoryWithProducts: FC<Props> = ({ data }) => {
+  if (!data) return null
   return (
-    <Tab.Group>
-      <Box className='flex flex-col lg:flex-row items-center justify-between gap-6'>
-        <Title order={3}>Featured Categories</Title>
-        <Tab.List as='div' className='flex flex-wrap items-center gap-2'>
-          <Tab as={Fragment}>
-            {({ selected }) => (
-              <Button radius={0} size='md' sx={(theme) => ({ background: selected ? theme.colors.brand : theme.colors.gray.at(8) })}>
-                Windows 10
-              </Button>
-            )}
-          </Tab>
-          <Tab as={Fragment}>
-            {({ selected }) => (
-              <Button radius={0} size='md' sx={(theme) => ({ background: selected ? theme.colors.brand : theme.colors.gray.at(8) })}>
-                Windows 11
-              </Button>
-            )}
-          </Tab>
-          <Tab as={Fragment}>
-            {({ selected }) => (
-              <Button radius={0} size='md' sx={(theme) => ({ background: selected ? theme.colors.brand : theme.colors.gray.at(8) })}>
-                MacOS
-              </Button>
-            )}
-          </Tab>
-          <Tab as={Fragment}>
-            {({ selected }) => (
-              <Button radius={0} size='md' sx={(theme) => ({ background: selected ? theme.colors.brand : theme.colors.gray.at(8) })}>
-                Office 2019
-              </Button>
-            )}
-          </Tab>
-          <Tab as={Fragment}>
-            {({ selected }) => (
-              <Button radius={0} size='md' sx={(theme) => ({ background: selected ? theme.colors.brand : theme.colors.gray.at(8) })}>
-                Office 2020
-              </Button>
-            )}
-          </Tab>
-        </Tab.List>
+    <Box>
+      <Tab.Group>
+        <Box className='flex flex-col lg:flex-row items-center justify-between gap-6'>
+          <Title order={3}>{data.title}</Title>
+          <Tab.List as='div' className='flex flex-wrap items-center gap-2'>
+            {data.collections?.data.map((collection) => (
+              <Tab as={Fragment}>
+                {({ selected }) => (
+                  <Button radius={0} size='md' sx={(theme) => ({ background: selected ? theme.colors.brand : theme.colors.gray.at(8) })}>
+                    {collection.attributes?.name}
+                  </Button>
+                )}
+              </Tab>
+            ))}
+          </Tab.List>
+        </Box>
+        <div className='h-[4px] bg-[var(--mantine-color-brand-0)] w-full block'></div>
+        <Tab.Panels className='mt-4'>
+          {data.collections?.data.map((collection) => (
+            <Tab.Panel key={collection.id}>
+              <ProductCarousel products={collection.attributes?.products?.data} />
+            </Tab.Panel>
+          ))}
+        </Tab.Panels>
+      </Tab.Group>
+      <Box>
+        <RichText blocks={data.content} />
       </Box>
-      <div className='h-[4px] bg-[var(--mantine-color-brand-0)] w-full block'></div>
-      <Tab.Panels className='mt-4'>
-        <Tab.Panel>
-          <ProductCarousel />
-        </Tab.Panel>
-        <Tab.Panel>
-          <ProductCarousel />
-        </Tab.Panel>
-        <Tab.Panel>
-          <ProductCarousel />
-        </Tab.Panel>
-        <Tab.Panel>
-          <ProductCarousel />
-        </Tab.Panel>
-        <Tab.Panel>
-          <ProductCarousel />
-        </Tab.Panel>
-      </Tab.Panels>
-    </Tab.Group>
+    </Box>
   )
 }
 

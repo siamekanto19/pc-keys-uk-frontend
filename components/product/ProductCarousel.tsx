@@ -3,8 +3,14 @@ import React, { FC } from 'react'
 import Carousel, { ArrowProps } from 'react-multi-carousel'
 import { ChevronLeft, ChevronRight } from 'tabler-icons-react'
 import ProductCard from './ProductCard'
+import { ProductEntity } from '@/gql/generated/graphql'
 
-const ProductCarousel = () => {
+type Props = {
+  products?: ProductEntity[]
+}
+
+const ProductCarousel: FC<Props> = ({ products }) => {
+  if (!products) return null
   const responsive = {
     big: {
       breakpoint: { max: 5000, min: 2049 },
@@ -29,20 +35,9 @@ const ProductCarousel = () => {
   }
   return (
     <Carousel customLeftArrow={<CustomLeftArrow />} customRightArrow={<CustomRightArrow />} className='mt-8' responsive={responsive} arrows itemClass='px-4'>
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
-      <ProductCard withBorder />
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} withBorder />
+      ))}
     </Carousel>
   )
 }

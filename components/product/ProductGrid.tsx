@@ -1,22 +1,18 @@
 import { Box } from '@mantine/core'
-import React from 'react'
+import React, { FC } from 'react'
 import ProductCard from './ProductCard'
+import { ProductEntity } from '@/gql/generated/graphql'
 
-const ProductGrid = () => {
+type Props = {
+  products: ProductEntity[]
+}
+
+const ProductGrid: FC<Props> = ({ products }) => {
   return (
     <Box className='grid grid-flow-row grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </Box>
   )
 }

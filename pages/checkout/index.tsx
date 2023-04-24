@@ -26,6 +26,11 @@ const CheckoutPage: NextPage<Props> = ({ countries }) => {
 
   // const [mutate, { loading, error }] = useMutation(SET_SHIPPING_ADDRESS)
 
+  const updateShippingAddress = (data: Partial<AddressInput>) => {
+    setShippingAddress(data)
+    router.push('/checkout/payment')
+  }
+
   return (
     <MainLayout withoutBackground>
       <Title order={3} my='md'>
@@ -38,7 +43,7 @@ const CheckoutPage: NextPage<Props> = ({ countries }) => {
             Already have an account?
           </Title>
           <Title order={3}>Shipping Address</Title>
-          <form onSubmit={handleSubmit(setShippingAddress)} className='mt-6 grid grid-flow-row grid-cols-2 gap-4'>
+          <form onSubmit={handleSubmit(updateShippingAddress)} className='mt-6 grid grid-flow-row grid-cols-2 gap-4'>
             <TextInput className='col-span-2' classNames={{ label: 'pb-2' }} label='Email Address' type='email' size='sm' radius={0} {...register('email')} />
             <TextInput required className='col-span-2' classNames={{ label: 'pb-2' }} label='Full Name' type='text' size='sm' radius={0} {...register('first_name')} />
             <TextInput className='col-span-2' classNames={{ label: 'pb-2' }} label='Company Name' type='text' size='sm' radius={0} {...register('company_name')} />
