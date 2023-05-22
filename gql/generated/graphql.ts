@@ -14,6 +14,8 @@ export type Scalars = {
   Float: number;
   /** The `DateTime` scalar type represents a point in time. */
   DateTime: any;
+  /** The `Money` scalar type represents a money value as a string. */
+  Money: any;
   /** The `QueryArgument` scalar type represents a value to be using in Craft element queries. It can be an integer, a string, or a boolean value. */
   QueryArgument: any;
 };
@@ -2392,6 +2394,7 @@ export type ProductInput = {
   relatedToTags?: InputMaybe<Array<InputMaybe<TagCriteriaInput>>>;
   /** Narrows the query results to elements that relate to a use list defined with this argument. */
   relatedToUsers?: InputMaybe<Array<InputMaybe<UserCriteriaInput>>>;
+  rrp?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
   /** Narrows the query results to only elements that match a search query. */
   search?: InputMaybe<Scalars['String']>;
   seo?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
@@ -3263,6 +3266,7 @@ export type QueryProductArgs = {
   relatedToEntries?: InputMaybe<Array<InputMaybe<EntryCriteriaInput>>>;
   relatedToTags?: InputMaybe<Array<InputMaybe<TagCriteriaInput>>>;
   relatedToUsers?: InputMaybe<Array<InputMaybe<UserCriteriaInput>>>;
+  rrp?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
   search?: InputMaybe<Scalars['String']>;
   seo?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
   shortDescription?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
@@ -3308,6 +3312,7 @@ export type QueryProductCountArgs = {
   relatedToEntries?: InputMaybe<Array<InputMaybe<EntryCriteriaInput>>>;
   relatedToTags?: InputMaybe<Array<InputMaybe<TagCriteriaInput>>>;
   relatedToUsers?: InputMaybe<Array<InputMaybe<UserCriteriaInput>>>;
+  rrp?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
   search?: InputMaybe<Scalars['String']>;
   seo?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
   shortDescription?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
@@ -3353,6 +3358,7 @@ export type QueryProductsArgs = {
   relatedToEntries?: InputMaybe<Array<InputMaybe<EntryCriteriaInput>>>;
   relatedToTags?: InputMaybe<Array<InputMaybe<TagCriteriaInput>>>;
   relatedToUsers?: InputMaybe<Array<InputMaybe<UserCriteriaInput>>>;
+  rrp?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
   search?: InputMaybe<Scalars['String']>;
   seo?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
   shortDescription?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
@@ -7555,6 +7561,7 @@ export type ContentBlocks_Products_BlockTypeProductsArgs = {
   relatedToEntries?: InputMaybe<Array<InputMaybe<EntryCriteriaInput>>>;
   relatedToTags?: InputMaybe<Array<InputMaybe<TagCriteriaInput>>>;
   relatedToUsers?: InputMaybe<Array<InputMaybe<UserCriteriaInput>>>;
+  rrp?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
   search?: InputMaybe<Scalars['String']>;
   seo?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
   shortDescription?: InputMaybe<Array<InputMaybe<Scalars['QueryArgument']>>>;
@@ -7771,6 +7778,7 @@ export type Product_Product = ElementInterface & ProductInterface & {
   productTypeHandle?: Maybe<Scalars['String']>;
   /** The ID of the product type that contains the product. */
   productTypeId?: Maybe<Scalars['Int']>;
+  rrp?: Maybe<Scalars['Money']>;
   /** The element’s search score, if the `search` parameter was used when querying for the element. */
   searchScore?: Maybe<Scalars['Int']>;
   seo?: Maybe<Ether_SeoData>;

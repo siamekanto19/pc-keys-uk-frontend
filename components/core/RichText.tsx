@@ -1,14 +1,18 @@
 import React, { FC } from 'react'
-import Blocks from 'editorjs-blocks-react-renderer'
 import { Maybe } from '@/gql/generated/graphql'
+import { TypographyStylesProvider } from '@mantine/core'
 
 type Props = {
-  blocks?: Maybe<string>
+  data?: Maybe<string>
 }
 
-const RichText: FC<Props> = ({ blocks }) => {
-  if (!blocks) return null
-  return <Blocks data={JSON.parse(blocks)} />
+const RichText: FC<Props> = ({ data }) => {
+  if (!data) return null
+  return (
+    <TypographyStylesProvider>
+      <div dangerouslySetInnerHTML={{ __html: data }}></div>
+    </TypographyStylesProvider>
+  )
 }
 
 export default RichText

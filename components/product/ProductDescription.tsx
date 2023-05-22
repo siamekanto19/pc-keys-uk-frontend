@@ -10,7 +10,7 @@ const ProductDescription: FC<Props> = ({ description }) => {
   if (!description) return null
   return (
     <TypographyStylesProvider py='lg'>
-      <RichText blocks={description} />
+      <RichText data={description} />
     </TypographyStylesProvider>
   )
 }

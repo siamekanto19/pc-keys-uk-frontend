@@ -6,9 +6,6 @@ import { GetServerSideProps, GetStaticProps } from 'next'
 import React, { FC } from 'react'
 import { ArrowNarrowRight, ChevronDown } from 'tabler-icons-react'
 import { apollo } from '../_app'
-import { SINGLE_COLLECTION } from '@/gql/queries/collectionQueries'
-import { PRODUCTS_BY_CATEGORY } from '@/gql/queries/productQueries'
-import { CollectionEntityResponse, ProductEntityResponseCollection } from '@/gql/generated/graphql'
 import RichText from '@/components/core/RichText'
 
 type Props = {
@@ -27,7 +24,7 @@ const SingleCategoryPage: FC<Props> = ({ category, products }) => {
         </Flex>
         <Box mt='lg'>
           <Title order={3}>{category.data?.attributes?.name}</Title>
-          <RichText blocks={category.data?.attributes?.description ?? ''} />
+          <RichText data={category.data?.attributes?.description ?? ''} />
         </Box>
         <Box mt={75} className='grid grid-flow-row grid-cols-1 lg:grid-cols-7 xl:grid-cols-8 gap-5'>
           <Box className='lg:col-span-2'>

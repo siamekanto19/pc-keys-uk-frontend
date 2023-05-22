@@ -16,7 +16,7 @@ const DynamicZone: FC<Props> = ({ zone }) => {
       <Box mt='lg'>
         <FeaturedCategories data={zone} />
         <Box mt='lg'>
-          <RichText blocks={zone.content} />
+          <RichText data={zone.content} />
         </Box>
       </Box>
     )
@@ -31,7 +31,7 @@ const DynamicZone: FC<Props> = ({ zone }) => {
         <div className='w-full h-[4px] bg-red-500 block mt-1'></div>
         <ProductCarousel products={zone.collection?.data?.attributes?.products?.data} />
         <Box mt='lg'>
-          <RichText blocks={zone.content} />
+          <RichText data={zone.content} />
         </Box>
       </Box>
     )

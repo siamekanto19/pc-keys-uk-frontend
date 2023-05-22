@@ -38,7 +38,7 @@ const FeaturedCategoryWithProducts: FC<Props> = ({ data }) => {
         </Tab.Panels>
       </Tab.Group>
       <Box>
-        <RichText blocks={data.content} />
+        <RichText data={data.content} />
       </Box>
     </Box>
   )

@@ -25,7 +25,7 @@ const ProductPage: FC<Props> = ({ product }) => {
   const [quantity, setQuantity] = useState(1)
   const [selectedVariantId, setSelectedVariantId] = useState(product.variants?.at(0)?.id ?? '')
   const [loading, setLoading] = useState(false)
-
+  console.log(product)
   const renderPrice = useMemo(() => {
     if (!product.variants || product.variants.length < 1) return ''
     for (const variant of product.variants) {

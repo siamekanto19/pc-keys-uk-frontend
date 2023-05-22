@@ -17,7 +17,7 @@ const openSans = Open_Sans({
 })
 
 export const apollo = new ApolloClient({
-  uri: 'https://build.pckeys.uk/graphql',
+  uri: 'https://cms.pckeys.uk/web/index.php?p=admin/actions/graphql/api',
   cache: new InMemoryCache(),
 })
 

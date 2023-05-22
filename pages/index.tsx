@@ -26,7 +26,7 @@ const IndexPage: NextPage<Props> = ({ page }) => {
           <Title order={2} align='center'>
             {page.attributes?.hero?.title}
           </Title>
-          <RichText blocks={page.attributes?.hero?.content} />
+          <RichText data={page.attributes?.hero?.content} />
         </Box>
         <Box mt='lg'>
           <FeaturedCategoryWithProducts data={page.attributes?.collection_tabs} />
